@@ -34,30 +34,30 @@ const exercise = document.getElementById("exercise"),
 saveButtonClicked = ()=> {
     checkRequired([exercise, weight, reps, sets]);
     showErrorMessages(); 
-    checkEmail(email);
 }
 
 const checkRequired = (inputArray) => {
     inputArray.forEach(input => {
         if(input.value.trim() === ""){
-            error[input.id] = input.id +" is empty";
+            setErrorMessage(input, input.id + " is empty")
         }
         else{
-            delete error[input.id];
+            deleteErrorMessage(input);
         }
     });
     console.log(error);
 }
 
-const checkEmail= () => {
-    const re = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
-    if(re.test(input.value.trim())){
-        delete error[input.id];
-    }
-    else{
-        error[input.id] = input.id + " is invalid";
-    }
+const setErrorMessage = (input, message) => {
+    error[input.id] = message;
+    input.style.border="1px solid red";
 }
+
+const deleteErrorMessage = (input) => {
+    delete error[input.id];
+    input.style.border="1px solid green";
+}
+
 
 const showErrorMessages = () => {
     const errorLabel = document.getElementById("error-label");
