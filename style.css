@@ -9,6 +9,8 @@ body{
 
 #app-layout #left-col {
     flex: 25%;
+    /* border-left: 1px solid gray;
+    background-color: red; */
 }
 
 #app-layout #right-col {
@@ -81,7 +83,7 @@ button:hover{
     border-radius: 10px;    
 }
 
-/* ADD CONTACTS FORM */
+/* ADD exerciseS FORM */
 
 #modal .modal-header h2 {
     text-align: center;
@@ -119,4 +121,60 @@ input[type="number"] {
 
 .close-btn{
     background-color: #999;
+}
+
+/* EXERCISE-LIST */
+
+#exercise-list {
+    margin: 0;
+    padding: 0;
+    border: 1px solid #999;
+    border-bottom: 0;
+}
+
+.exercise-list-item{
+    display: flex;
+    border-bottom: 1px solid #999;
+    padding: 5px;
+}
+
+.exercise-list-item .media {
+    flex: 1;
+}
+
+.exercise-list-item .media .emoji {
+    font-size: 30px;
+    width: 60px;
+    height: 60px;
+    background-color: #fff;
+    border: 1px solid gray;
+    border-radius: 50%;
+    border-color: #444;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.exercise-list-item .content {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 10px;
+}
+
+.exercise-list-item .content .ex-name{
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+}
+
+.exercise-list-item .action {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+}
+
+.exercise-list-item .action .edit-btn .delete-btn{
+    background-color: #444;
 }
