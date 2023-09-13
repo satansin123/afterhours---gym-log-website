@@ -1,4 +1,4 @@
-import {getFirestore, collection, addDoc, onSnapshot} from "https://www.gstatic.com/firebasejs/10.3.1/firebase-firestore.js"
+import {getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc} from "https://www.gstatic.com/firebasejs/10.3.1/firebase-firestore.js"
 const db = getFirestore();
 const dbRef = collection(db, "exercises");
 
@@ -42,7 +42,7 @@ const showExercises = (exercises) => {
 
     exercises.forEach((exercise) => {
 
-        const li = `<li class="exercise-list-item">
+        const li = `<li class="exercise-list-item" id="${exercise.id}">
         <div class="media">
             <div class="emoji">🏋️</div>
         </div>
@@ -55,12 +55,8 @@ const showExercises = (exercises) => {
             </div>
         </div>
         <div class="action">
-            <button class="edit-btnn"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 24 20">
-                <path d="M 18 2 L 15.585938 4.4140625 L 19.585938 8.4140625 L 22 6 L 18 2 z M 14.076172 5.9238281 L 3 17 L 3 21 L 7 21 L 18.076172 9.9238281 L 14.076172 5.9238281 z"></path>
-            </svg></button>
-            <button class="delete-btn"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 50 50">
-                <path d="M 21 0 C 19.354545 0 18 1.3545455 18 3 L 18 5 L 10.15625 5 A 1.0001 1.0001 0 0 0 9.8378906 5 L 8 5 A 1.0001 1.0001 0 1 0 8 7 L 9.0859375 7 L 12.705078 47.5 L 12.707031 47.509766 C 12.857262 48.862232 13.981872 50 15.400391 50 L 34.599609 50 C 36.018128 50 37.142691 48.862266 37.292969 47.509766 L 37.294922 47.5 L 40.914062 7 L 42 7 A 1.0001 1.0001 0 1 0 42 5 L 40.173828 5 A 1.0001 1.0001 0 0 0 39.841797 5 L 32 5 L 32 3 C 32 1.3545455 30.645455 0 29 0 L 21 0 z M 21 2 L 29 2 C 29.554545 2 30 2.4454545 30 3 L 30 5 L 20 5 L 20 3 C 20 2.4454545 20.445455 2 21 2 z M 11.09375 7 L 18.832031 7 A 1.0001 1.0001 0 0 0 19.158203 7 L 30.832031 7 A 1.0001 1.0001 0 0 0 31.158203 7 L 38.90625 7 L 35.306641 47.289062 C 35.256918 47.736563 34.981091 48 34.599609 48 L 15.400391 48 C 15.018909 48 14.743082 47.736563 14.693359 47.289062 L 11.09375 7 z M 18.984375 9.9863281 A 1.0001 1.0001 0 0 0 18 11 L 18 44 A 1.0001 1.0001 0 1 0 20 44 L 20 11 A 1.0001 1.0001 0 0 0 18.984375 9.9863281 z M 24.984375 9.9863281 A 1.0001 1.0001 0 0 0 24 11 L 24 44 A 1.0001 1.0001 0 1 0 26 44 L 26 11 A 1.0001 1.0001 0 0 0 24.984375 9.9863281 z M 30.984375 9.9863281 A 1.0001 1.0001 0 0 0 30 11 L 30 44 A 1.0001 1.0001 0 1 0 32 44 L 32 11 A 1.0001 1.0001 0 0 0 30.984375 9.9863281 z"></path>
-                </svg></button>
+            <button class="edit-btn">edit</button>
+            <button class="delete-btn">delete</button>
         </div>
     </li>`;
 
@@ -68,15 +64,89 @@ const showExercises = (exercises) => {
     });
 }
 
-//----------------------------------------------------------------------
 // CLICK CONTACT LIST ELEMENT
-//----------------------------------------------------------------------
 
 const exerciseListClicked = (event) => {
-    
+    console.log("el click");
+    const id = event.target.closest("li").getAttribute("id");
+    console.log(id);
+
+    if(event.target.className === "edit-btn") {
+        editButtonClicked(id);
+    }
+    else if(event.target.className === "delete-btn"){
+        deleteButtonClicked(id);
+    }
+    else {
+        displayExerciseDetails(id);
+    }
+    displayExerciseDetails(id);
 }
 
 exerciseList.addEventListener("click", exerciseListClicked);
+
+// EDIT DATA
+
+const editButtonClicked = (id) => {
+    modalOverlay.style.display="flex";
+    const exercise = getExercise(id);
+    console.log("editButtonClicked");
+    console.log(exercise.exercise)
+    exercisename.value = exercise.exercise;
+    weight.value = exercise.weight;
+    reps.value = exercise.reps;
+    sets.value = exercise.sets;
+    note.value = exercise.note;
+
+    modalOverlay.setAttribute("exercise-id", exercise.id);
+}
+
+//DELETE DATA
+
+const deleteButtonClicked = async(id) => {
+
+    const isConfirmed = confirm("Are you sure you want to delete it?");
+
+    if(isConfirmed) {
+        try{    
+            const docRef = doc(db, "exercises", id);
+            await deleteDoc(docRef);
+        }
+        catch(err) {
+            setErrorMessage("error", "Unable to delete data, please try again later");
+            showErrorMessages();
+        }
+    }
+}
+
+//DISPLAY EXERCISE DETAILS
+
+const getExercise = (id) => {
+    return exercises.find(exercise => {
+        return exercise.id ===id;
+    });
+}
+
+const displayExerciseDetails = (id) => {
+    const exercise = getExercise(id);
+    const rightColDetail = document.getElementById("right-col-detail");
+    rightColDetail.innerHTML = `
+        <div class="label"> Exercise:</div>
+        <div class="data"> ${exercise.exercise}</div>
+
+        <div class="label"> Weight:</div>
+        <div class="data"> ${exercise.weight}</div>
+
+        <div class="label"> Repetitions:</div>
+        <div class="data"> ${exercise.reps}</div>
+
+        <div class="label"> Sets:</div>
+        <div class="data"> ${exercise.sets}</div>
+
+        <div class="label"> Note:</div>
+        <div class="data"> ${exercise.note}</div>
+    `;
+}
 
 //----------------------------------------------------------------------
 // MODAL
@@ -88,6 +158,12 @@ const closeBtn = document.querySelector(".close-btn");
 
 const addButtonClicked=()=>{
     modalOverlay.style.display = "flex";
+    modalOverlay.removeAttribute("exercise-id");
+    exercisename.value = "";
+    weight.value = "";
+    reps.value = "";
+    sets.value = "";
+    note.value = "";
 }
 
 const closeButtonClicked=()=>{
@@ -117,7 +193,7 @@ const saveBtn = document.querySelector(".save-btn");
 const error = {};
 
 
-const exercise = document.getElementById("exercise"),
+const exercisename = document.getElementById("exercise"),
     weight = document.getElementById("weight"),
     reps = document.getElementById("reps"),
     sets = document.getElementById("sets"),
@@ -130,20 +206,41 @@ const exercise = document.getElementById("exercise"),
 
     if(Object.keys(error).length === 0) {
 
-        try{
-            await addDoc(dbRef, {
-                exercise:exercise.value,
-                weight:weight.value,
-                reps:reps.value,
-                sets:sets.value,
-                note:note.value
-            });
-
-            hideModal();
-        } 
-        catch(err){
-            setErrorMessage("error", "Unable to add User Data, please try again later");
-            showErrorMessages();
+        if(modalOverlay.getAttribute("exercise-id")) {
+            //update data
+            const docRef = doc(db, "exercises", modalOverlay.getAttribute("exercise-id"));
+            try{
+                await updateDoc(docRef, {
+                    exercise:exercisename.value,
+                    weight:weight.value,
+                    reps:reps.value,
+                    sets:sets.value,
+                    note:note.value
+                });
+                hideModal();
+            }
+            catch(err) {
+                setErrorMessage("error", "Unable to update data, please try again later");
+                showErrorMessages();
+            }
+        }
+        else {
+            //add data
+            try{
+                await addDoc(dbRef, {
+                    exercise:exercisename.value,
+                    weight:weight.value,
+                    reps:reps.value,
+                    sets:sets.value,
+                    note:note.value
+                });
+    
+                hideModal();
+            } 
+            catch(err){
+                setErrorMessage("error", "Unable to add User Data, please try again later");
+                showErrorMessages();
+            }
         }
         
     }

@@ -178,3 +178,19 @@ input[type="number"] {
 .exercise-list-item .action .edit-btn .delete-btn{
     background-color: #444;
 }
+
+/* EXERCISE-DETAILS */
+
+#right-col-detail {
+    margin: 20px;
+}
+
+#right-col-detail .label {
+    font-size: 1.1em;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+#right-col-detail .label {
+    font-size: 1.2em;
+}
