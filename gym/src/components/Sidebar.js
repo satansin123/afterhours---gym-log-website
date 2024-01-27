@@ -1,7 +1,7 @@
 // Sidebar.jsx
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faUserFriends, faWalking, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUserFriends, faWalking, faUserCheck } from '@fortawesome/free-solid-svg-icons';
 
 function Sidebar({ handleButtonClick }) {
   const [activeNavItem, setActiveNavItem] = useState('home');
@@ -16,7 +16,7 @@ function Sidebar({ handleButtonClick }) {
       {/* Logo and nav */}
       <div className="px-5 py-4">
         <div className="text-white text-4xl font-extrabold mb-10 text-yellow-500">
-          Travel
+          FitCampus
         </div>
         <nav className="flex flex-col">
           <button
@@ -45,11 +45,11 @@ function Sidebar({ handleButtonClick }) {
       <div className="mt-auto px-5 py-1 bg-gray-700 flex items-center justify-between">
         <div>
           <button className="create-account-button text-white py-1 px-4 rounded">
-            Create Account
+            Account
           </button>
         </div>
         <div>
-          <FontAwesomeIcon icon={faUserPlus} className="text-white text-2xl" />
+          <FontAwesomeIcon icon={faUserCheck} className="text-white text-2xl" />
         </div>
       </div>
     </div>

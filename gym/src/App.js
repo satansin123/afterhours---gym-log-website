@@ -6,7 +6,13 @@ import FitCampusLogin from './pages/login';
 import FitCampusRegistration from './pages/signUp';
 import FitCampusProfileSetup from './pages/profileSetup';
 import Home2 from './pages/home2';
+import GymAdminPage from './pages/admin';
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
+import firebaseConfig from './firebase';
 
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 function App() {
   return (
@@ -17,6 +23,8 @@ function App() {
         <Route path="/profile-setup" element={<FitCampusProfileSetup />} />
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home2 />} />
+        <Route path="/admin" element={<GymAdminPage />} />
+        
       </Routes>
     </Router>
   );
