@@ -5,6 +5,7 @@ import Home from './pages/home';
 import FitCampusLogin from './pages/login';
 import FitCampusRegistration from './pages/signUp';
 import FitCampusProfileSetup from './pages/profileSetup';
+import Home2 from './pages/home2';
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/register" element={<FitCampusRegistration />} />
         <Route path="/profile-setup" element={<FitCampusProfileSetup />} />
         <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home2 />} />
       </Routes>
     </Router>
   );

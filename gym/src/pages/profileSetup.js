@@ -1,6 +1,6 @@
 // src/components/FitCampusProfileSetup.js
 import React, { useState } from 'react';
-
+import { Link } from 'react-router-dom';
 const FitCampusProfileSetup = () => {
   const [age, setAge] = useState(20);
 
@@ -83,12 +83,12 @@ const FitCampusProfileSetup = () => {
             </label>
           </div>
           <div className="flex items-center justify-center">
-            <button
+            <Link to="/home"
               className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
             >
               Enter
-            </button>
+            </Link>
           </div>
         </form>
       </div>

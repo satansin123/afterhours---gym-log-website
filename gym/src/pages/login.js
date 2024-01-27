@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { auth,db } from '../firebase';
+import { Link } from 'react-router-dom';
 import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
@@ -77,13 +78,13 @@ const FitCampusLogin = () => {
               <p className="text-red-500 text-xs italic">Please choose a password.</p>
             </div>
             <div className="flex items-center justify-between">
-            <button
+            <Link to="/home"
             className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="button"
             onClick={logInClicked}
           >
             LOGIN
-          </button>
+          </Link>
               <a
                 className="inline-block align-baseline font-bold text-sm text-yellow-500 hover:text-yellow-800"
                 href="#"

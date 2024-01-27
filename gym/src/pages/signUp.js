@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { auth, collection, doc, setDoc, db } from '../firebase'; // Include 'db' in the import statement
 
 import { createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
@@ -80,13 +81,13 @@ const FitCampusRegistration = () => {
                 />
               </div>
               <div className="flex items-center justify-center">
-              <button
+              <Link to="/profile-setup"
               className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
               onClick={signUpClicked}
             >
               Register
-            </button>
+            </Link>
               </div>
             </div>
           </form>
