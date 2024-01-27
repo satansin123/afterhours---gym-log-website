@@ -1,4 +1,10 @@
 import React, { useEffect } from 'react';
+import { auth,db } from '../firebase';
+import {
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
 
 const FitCampusLogin = () => {
   useEffect(() => {
@@ -9,6 +15,38 @@ const FitCampusLogin = () => {
       input.addEventListener('input', () => storeInput(input.name, input.value));
     });
   }, []);
+
+  const logInClicked = async () => {
+    const logInEmail = document.getElementById("loginID").value;
+    const logInPassword = document.getElementById("password").value;
+    await signInWithEmailAndPassword(auth, logInEmail, logInPassword)
+      .then((userCredential) => {
+        const user = auth.currentUser;
+        console.log(user);
+        alert("You have been Logged In.\nPlease refresh the page if you are not redirected");
+      })
+      .catch((error) => {
+        console.log(error);
+        alert(error.message);
+      });
+  };
+
+  const pwdBtnClicked = async () => {
+    var resetEmail = document.getElementById("reset-email").value;
+
+    await sendPasswordResetEmail(auth, resetEmail)
+      .then(() => {
+        alert("Password reset email sent successfully!");
+      })
+      .catch((error) => {
+        console.log(error);
+        alert(error.message);
+      });
+  };
+
+  const logOutClicked = async () => {
+    await signOut(auth);
+  };
 
   return (
     <div className="bg-black text-white flex items-center justify-center flex-col h-screen">
@@ -39,12 +77,13 @@ const FitCampusLogin = () => {
               <p className="text-red-500 text-xs italic">Please choose a password.</p>
             </div>
             <div className="flex items-center justify-between">
-              <button
-                className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="button"
-              >
-                LOGIN
-              </button>
+            <button
+            className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type="button"
+            onClick={logInClicked}
+          >
+            LOGIN
+          </button>
               <a
                 className="inline-block align-baseline font-bold text-sm text-yellow-500 hover:text-yellow-800"
                 href="#"
