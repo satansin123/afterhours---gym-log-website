@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js"
+import {getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, setDoc} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js"
 import{ getAuth, onAuthStateChanged, createUserWithEmailAndPassword, sendEmailVerification, updateProfile} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
 const db = getFirestore();
 const auth = getAuth();
@@ -113,7 +113,7 @@ function GymAdminPage() {
           <label htmlFor="unavail-machine">Select Machine:</label>
           <select list="machines" id="unavail-machine">
             <option value="" disabled selected>Select your option</option>
-            {populateMachineDropdown()}
+            {/* {populateMachineDropdown()} */}
           </select><br /><br />
           <button type="submit">Make Unavailable</button>
         </form>
