@@ -1,17 +1,37 @@
 // src/components/FitCampusProfileSetup.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+
 const FitCampusProfileSetup = () => {
+  const [weight, setWeight] = useState('');
+  const [height, setHeight] = useState('');
+  const [goalWeight, setGoalWeight] = useState('');
   const [age, setAge] = useState(20);
+  const [gender, setGender] = useState('male');
 
   const handleSliderChange = (event) => {
-    setAge(event.target.value);
+    setAge(parseInt(event.target.value, 10));
+  };
+
+  const handleGenderChange = (event) => {
+    setGender(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log('Weight:', weight);
+    console.log('Height:', height);
+    console.log('Goal Weight:', goalWeight);
+    console.log('Age:', age);
+    console.log('Gender:', gender);
+
+    // Add your logic for form submission or navigation here
   };
 
   return (
     <div className="bg-black text-white flex items-center justify-center h-screen">
       <div className="w-full max-w-md">
-        <form className="bg-black shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <form className="bg-black shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
           <h1 className="block text-white text-5xl text-center mb-6">FitCampus</h1>
           <p className="text-yellow-500 text-lg text-center mb-4">Please enter your Details</p>
           <div className="mb-4">
@@ -22,6 +42,8 @@ const FitCampusProfileSetup = () => {
               type="text"
               placeholder="62.5"
               name="weight"
+              value={weight}
+              onChange={(e) => setWeight(e.target.value)}
             />
           </div>
           <div className="mb-4">
@@ -32,6 +54,8 @@ const FitCampusProfileSetup = () => {
               type="text"
               placeholder="175.5"
               name="height"
+              value={height}
+              onChange={(e) => setHeight(e.target.value)}
             />
           </div>
           <div className="mb-4">
@@ -42,6 +66,8 @@ const FitCampusProfileSetup = () => {
               type="text"
               placeholder="68.5"
               name="goalWeight"
+              value={goalWeight}
+              onChange={(e) => setGoalWeight(e.target.value)}
             />
           </div>
           <div className="mb-4">
@@ -68,7 +94,8 @@ const FitCampusProfileSetup = () => {
                 className="form-radio text-yellow-500"
                 name="gender"
                 value="male"
-                defaultChecked
+                checked={gender === 'male'}
+                onChange={handleGenderChange}
               />
               <span className="ml-2 text-yellow-500">Male</span>
             </label>
@@ -78,6 +105,8 @@ const FitCampusProfileSetup = () => {
                 className="form-radio text-yellow-500"
                 name="gender"
                 value="female"
+                checked={gender === 'female'}
+                onChange={handleGenderChange}
               />
               <span className="ml-2 text-yellow-500">Female</span>
             </label>
