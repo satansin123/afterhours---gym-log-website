@@ -1,10 +1,40 @@
 // Sidebar.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faUserFriends, faWalking, faUserCheck } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUserFriends, faWalking, faUserCheck, faBowlFood } from '@fortawesome/free-solid-svg-icons';
+import { Link, useLocation } from 'react-router-dom';
 
 function Sidebar({ handleButtonClick }) {
   const [activeNavItem, setActiveNavItem] = useState('home');
+  const location = useLocation();
+
+  useEffect(() => {
+    // Update activeNavItem based on the current pathname
+    const path = location.pathname;
+    setActiveNavItem(getNavItemFromPath(path));
+  }, [location.pathname]);
+
+  const getNavItemFromPath = (path) => {
+    // Map the pathname to the corresponding navItem
+    switch (path) {
+      case '/home':
+        return 'home';
+      case '/friends':
+        return 'friends';
+      case '/pedometer':
+        return 'pedometer';
+      case '/nutrition':
+        return 'nutrition';
+      case '/machine':
+        return 'machine';
+      case '/workout':
+        return 'workout';
+      case '/progress':
+        return 'progress';
+      default:
+        return 'home';
+    }
+  };
 
   const handleNavButtonClick = (navItem) => {
     setActiveNavItem(navItem);
@@ -19,27 +49,55 @@ function Sidebar({ handleButtonClick }) {
           FitCampus
         </div>
         <nav className="flex flex-col">
-          <button
+          <Link to="/home"
             className={`nav-button mb-6 flex items-center focus:outline-none ${activeNavItem === 'home' ? 'bg-yellow-500' : 'bg-black-800'}`}
             onClick={() => handleNavButtonClick('home')}
           >
             <FontAwesomeIcon icon={faHome} className="mr-6 text-black-500" />
             Home
-          </button>
-          <button
-            className={`nav-button mb-6 flex items-center focus:outline-none ${activeNavItem === 'about' ? 'bg-yellow-500' : 'bg-black-800'}`}
-            onClick={() => handleNavButtonClick('about')}
+          </Link>
+          <Link to="/friends"
+            className={`nav-button mb-6 flex items-center focus:outline-none ${activeNavItem === 'friends' ? 'bg-yellow-500' : 'bg-black-800'}`}
+            onClick={() => handleNavButtonClick('friends')}
           >
             <FontAwesomeIcon icon={faUserFriends} className="mr-6 text-black-500" />
             My Friends
-          </button>
-          <button
-            className={`nav-button mb-6 flex items-center focus:outline-none ${activeNavItem === 'images' ? 'bg-yellow-500' : 'bg-black-800'}`}
-            onClick={() => handleNavButtonClick('images')}
+          </Link>
+          <Link to="/pedometer"
+            className={`nav-button mb-6 flex items-center focus:outline-none ${activeNavItem === 'pedometer' ? 'bg-yellow-500' : 'bg-black-800'}`}
+            onClick={() => handleNavButtonClick('pedometer')}
           >
             <FontAwesomeIcon icon={faWalking} className="mr-9 text-black-500" />
             Pedometer
-          </button>
+          </Link>
+          <Link to="/nutrition"
+            className={`nav-button mb-6 flex items-center focus:outline-none ${activeNavItem === 'nutrition' ? 'bg-yellow-500' : 'bg-black-800'}`}
+            onClick={() => handleNavButtonClick('nutrition')}
+          >
+            <FontAwesomeIcon icon={faBowlFood} className="mr-9 text-black-500" />
+            Nutrition Tracker
+          </Link>
+          <Link to="/machine"
+            className={`nav-button mb-6 flex items-center focus:outline-none ${activeNavItem === 'machine' ? 'bg-yellow-500' : 'bg-black-800'}`}
+            onClick={() => handleNavButtonClick('machine')}
+          >
+            <FontAwesomeIcon icon={faWalking} className="mr-9 text-black-500" />
+            Machine Availability
+          </Link>
+          <Link to="/workout"
+            className={`nav-button mb-6 flex items-center focus:outline-none ${activeNavItem === 'workout' ? 'bg-yellow-500' : 'bg-black-800'}`}
+            onClick={() => handleNavButtonClick('workout')}
+          >
+            <FontAwesomeIcon icon={faWalking} className="mr-9 text-black-500" />
+            Workout Routine
+          </Link>
+          <Link to="/progress"
+            className={`nav-button mb-6 flex items-center focus:outline-none ${activeNavItem === 'progress' ? 'bg-yellow-500' : 'bg-black-800'}`}
+            onClick={() => handleNavButtonClick('progress')}
+          >
+            <FontAwesomeIcon icon={faWalking} className="mr-9 text-black-500" />
+            Track Progress
+          </Link>
         </nav>
       </div>
       <div className="mt-auto px-5 py-1 bg-gray-700 flex items-center justify-between">

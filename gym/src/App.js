@@ -10,6 +10,11 @@ import GymAdminPage from './pages/admin';
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import firebaseConfig from './firebase';
+import WorkoutTracker from './pages/workout';
+import Progress from './pages/progress';
+import Nutrition from './pages/nutrition';
+import Machine from './pages/machine';
+
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -24,6 +29,11 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home2 />} />
         <Route path="/admin" element={<GymAdminPage />} />
+        <Route path="/workout" element={<WorkoutTracker/>} />
+        <Route path="/nutrition" element={<Nutrition/>} />
+        <Route path="/machine" element={<Machine/>} />
+        <Route path="/progress" element={<Progress/>} />
+        
         
       </Routes>
     </Router>
