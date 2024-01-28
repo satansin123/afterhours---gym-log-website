@@ -111,7 +111,7 @@ const WorkoutTracker = () => {
     console.log(`Button clicked: ${navItem}`);
   };
   return (
-    <div className="flex">
+    <div className="flex bg-#252424">
         <Sidebar handleButtonClick={handleButtonClick}/>
       <div className="w-80 h-screen " aria-hidden="true"></div>
       <div className="flex-1 p-6">
@@ -124,7 +124,7 @@ const WorkoutTracker = () => {
         </div>
         <div className="mt-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <div className="bg-gray-800 p-6 rounded-lg">
+          <div className="p-6 rounded-lg bg_gray" >
               <h2 className="text-xl font-semibold mb-4">Build your Workout Routine</h2>
               <form>
                 <div className="space-y-4">
@@ -133,7 +133,7 @@ const WorkoutTracker = () => {
                     value={exerciseInput}
                     onChange={(e) => setExerciseInput(e.target.value)}
                     placeholder="Enter Exercise"
-                    className="block w-full bg-gray-700 border border-gray-600 rounded-md p-2"
+                    className="block w-full bg_trans border border-gray-600 rounded-md p-2"
                     required
                   />
                   <input
@@ -141,7 +141,7 @@ const WorkoutTracker = () => {
                     value={weightInput}
                     onChange={(e) => setWeightInput(e.target.value)}
                     placeholder="Enter Weight"
-                    className="block w-full bg-gray-700 border border-gray-600 rounded-md p-2"
+                    className="block w-full bg_trans border border-gray-600 rounded-md p-2"
                     required
                   />
                   <input
@@ -149,7 +149,7 @@ const WorkoutTracker = () => {
                     value={repsInput}
                     onChange={(e) => setRepsInput(e.target.value)}
                     placeholder="Enter Repetitions"
-                    className="block w-full bg-gray-700 border border-gray-600 rounded-md p-2"
+                    className="block w-full bg_trans border border-gray-600 rounded-md p-2"
                     required
                   />
                   <input
@@ -157,17 +157,17 @@ const WorkoutTracker = () => {
                     value={setsInput}
                     onChange={(e) => setSetsInput(e.target.value)}
                     placeholder="Enter Sets"
-                    className="block w-full bg-gray-700 border border-gray-600 rounded-md p-2"
+                    className="block w-full bg_trans border border-gray-600 rounded-md p-2"
                     required
                   />
                   <textarea
                     value={noteInput}
                     onChange={(e) => setNoteInput(e.target.value)}
                     placeholder="Note"
-                    className="block w-full bg-gray-700 border border-gray-600 rounded-md p-2"
+                    className="block w-full bg_trans border border-gray-600 rounded-md p-2"
                   ></textarea>
                 </div>
-                <button onClick={addExercise} className="mt-4 bg-yellow-500 hover:bg-yellow-600 text-black py-2 px-4 rounded">
+                <button onClick={addExercise} className="mt-4 bg-yellow-400 hover:bg-yellow-600 text-black py-2 px-4 rounded">
                   + Add
                 </button>
               </form>

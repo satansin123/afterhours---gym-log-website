@@ -45,7 +45,7 @@ function Sidebar({ handleButtonClick }) {
     <div className="sidebar absolute left-0 w-64 flex flex-col bg-gray-900 shadow-lg">
       {/* Logo and nav */}
       <div className="px-5 py-4">
-        <div className="text-white text-4xl font-extrabold mb-10 text-yellow-500">
+        <div className="text-white text-4xl font-extrabold mb-10 text-white-500">
           FitCampus
         </div>
         <nav className="flex flex-col">
