@@ -19,4 +19,4 @@ console.log("running firebase sdk");
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 console.log(app);
-export const auth = getAuth(app);
+const auth = getAuth(app);
