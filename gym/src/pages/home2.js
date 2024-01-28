@@ -34,9 +34,9 @@ const Home2 = () => {
           />
           <Card
             imageSrc={d}
-            altText="Track your progress"
-            title="Track your progress"
-            to="/progress"
+            altText="Timings Of Gym"
+            title="Timings Of Gym"
+            to="/gym-time"
           />
         </div>
       </div>

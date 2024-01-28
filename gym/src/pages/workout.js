@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import {
     getFirestore,
@@ -19,6 +20,7 @@ import {
 const db = getFirestore();
 const auth = getAuth();
 let user, dbRef;
+var username;
 
 const WorkoutTracker = () => {
   const [exerciseList, setExerciseList] = useState([]);
@@ -28,36 +30,43 @@ const WorkoutTracker = () => {
   const [setsInput, setSetsInput] = useState('');
   const [noteInput, setNoteInput] = useState('');
 
-  useEffect(() => {
-    const getUserData = async () => {
-      user = auth.currentUser;
-      dbRef = collection(db, 'users', user.uid, 'exercise-data');
-    };
+  const getUserData = async () => {
+    user = auth.currentUser;
+    username=user.displayName;
+    console.log(username)
+    dbRef = collection(db, 'users', user.uid, 'exercise-data');
+  };
 
-    const getExercises = async () => {
-      try {
-        await onSnapshot(dbRef, (docsSnap) => {
-          const exercises = docsSnap.docs.map((doc) => {
-            const exercise = doc.data();
-            exercise.id = doc.id;
-            return exercise;
-          });
-          setExerciseList(exercises);
+  const getExercises = async () => {
+    try {
+      await onSnapshot(dbRef, (docsSnap) => {
+        const exercises = docsSnap.docs.map((doc) => {
+          const exercise = doc.data();
+          exercise.id = doc.id;
+          return exercise;
         });
-      } catch (err) {
-        console.log('getExercises =' + err);
-      }
-    };
+        console.log(exercises)
+        setExerciseList(exercises);
+      });
+    } catch (err) {
+      console.log('getExercises =' + err);
+    }
+  };
 
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        getUserData();
-        getExercises();
-        alert('Logged In');
-      } else {
-        alert('Not logged in');
-      }
-    });
+  onAuthStateChanged(auth, async (user) => {
+    console.log(user)
+    if (user) {
+      getUserData();
+      getExercises();
+      // alert('Logged In');
+    } else {
+      alert('Not logged in');
+    }
+  });
+  useEffect(() => {
+    
+
+   
   }, []);
 
   const addExercise = async (e) => {
@@ -94,17 +103,11 @@ const WorkoutTracker = () => {
     }
   };
 
-  const deleteExercise = async (id) => {
-    try {
-      const docRef = doc(db, 'users', user.uid, 'exercise-data', id);
-      await deleteDoc(docRef);
-      setExerciseList((prevExercises) =>
-        prevExercises.filter((exercise) => exercise.id !== id)
-      );
-    } catch (err) {
-      console.log('Error deleting exercise from Firebase:', err);
-    }
+  const handleDeleteExercise = async (id) => {
+    const exerciseRef = doc(db, 'users', user.uid, 'exercise-data', id);
+    await deleteDoc(exerciseRef);
   };
+  
 
   const handleButtonClick = (navItem) => {
     // Handle the button click, e.g., change the content based on the navItem
@@ -115,13 +118,7 @@ const WorkoutTracker = () => {
         <Sidebar handleButtonClick={handleButtonClick}/>
       <div className="w-80 h-screen " aria-hidden="true"></div>
       <div className="flex-1 p-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-semibold">Workout Tracker</h1>
-          <a href="#" className="flex items-center">
-            <img className="rounded-full h-10 w-10" src="https://placehold.co/100x100" alt="User profile image placeholder" />
-            <span className="ml-2">My Profile</span>
-          </a>
-        </div>
+      <Header/>
         <div className="mt-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="p-6 rounded-lg bg_gray" >
@@ -176,17 +173,19 @@ const WorkoutTracker = () => {
               {exerciseList.map((exercise, index) => (
                 <div key={index} className="flex items-center justify-between p-4 bg-gray-800 rounded-lg mb-4">
                   <div>
-                    <span className="font-semibold">{exercise.exerciseName}</span>
+                    <span className="font-semibold">{exercise.exercise}</span>
                     <div className="text-gray-400 text-sm">
+                    {/* <span className="font-semibold">{exercise.exerciseName}</span> */}
                       <span>Weight: {exercise.weight}</span>,
                       <span>Reps: {exercise.reps}</span>,
                       <span>Sets: {exercise.sets}</span>,
                       <span>Note: {exercise.note}</span>
+                      {/* <span>Date: {exercise.date}</span> */}
                     </div>
                   </div>
                   <div>
-                    <a href="#" className="text-yellow-500 mr-2"><i className="fas fa-pencil-alt"></i></a>
-                    <a href="#" className="text-red-500" onClick={() => deleteExercise(index)}><i className="fas fa-trash"></i></a>
+                    {/* <a href="#" className="text-yellow-500 mr-2" onClick={() => handleEditExercise(exercise)}><i className="fas fa-pencil-alt"></i></a> */}
+                    <a href="#" className="text-red-500" onClick={() => handleDeleteExercise(exercise.id)}><i className="fas fa-trash"></i></a>
                   </div>
                 </div>
               ))}

@@ -29,8 +29,8 @@ function Sidebar({ handleButtonClick }) {
         return 'machine';
       case '/workout':
         return 'workout';
-      case '/progress':
-        return 'progress';
+      case '/gym':
+        return 'gym';
       default:
         return 'home';
     }
@@ -91,13 +91,11 @@ function Sidebar({ handleButtonClick }) {
             <FontAwesomeIcon icon={faWalking} className="mr-9 text-black-500" />
             Workout Routine
           </Link>
-          <Link to="/progress"
-            className={`nav-button mb-6 flex items-center focus:outline-none ${activeNavItem === 'progress' ? 'bg-yellow-500' : 'bg-black-800'}`}
-            onClick={() => handleNavButtonClick('progress')}
-          >
-            <FontAwesomeIcon icon={faWalking} className="mr-9 text-black-500" />
-            Track Progress
-          </Link>
+          <Link to="/gym" className={`nav-button mb-6 flex items-center focus:outline-none ${activeNavItem === 'gym' ? 'bg-yellow-500' : 'bg-black-800'}`} onClick={() => handleNavButtonClick('gym')}>
+  <FontAwesomeIcon icon={faWalking} className="mr-9 text-black-500" />
+  Gym Timings
+</Link>
+
         </nav>
       </div>
       <div className="mt-auto px-5 py-1 bg-gray-700 flex items-center justify-between">

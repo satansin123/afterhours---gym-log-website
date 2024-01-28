@@ -95,9 +95,9 @@ const FitCampusLogin = () => {
             <div className="text-center my-4">
               <p className="text-gray-600">
                 Haven't Signed up yet?
-                <a href="#" className="text-yellow-500 hover:text-yellow-800">
+                <Link to="/register" href="#" className="text-yellow-500 hover:text-yellow-800">
                   Register
-                </a>
+                </Link>
               </p>
             </div>
           </div>
