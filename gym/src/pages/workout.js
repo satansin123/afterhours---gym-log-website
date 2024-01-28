@@ -1,5 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    onSnapshot,
+    doc,
+    updateDoc,
+    deleteDoc,
+  } from 'https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js';
+  
+  import {
+    getAuth,  // Corrected import
+    onAuthStateChanged,
+  } from 'https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js';
+  
+
+const db = getFirestore();
+const auth = getAuth();
+let user, dbRef;
 
 const WorkoutTracker = () => {
   const [exerciseList, setExerciseList] = useState([]);
@@ -9,7 +28,39 @@ const WorkoutTracker = () => {
   const [setsInput, setSetsInput] = useState('');
   const [noteInput, setNoteInput] = useState('');
 
-  const addExercise = (e) => {
+  useEffect(() => {
+    const getUserData = async () => {
+      user = auth.currentUser;
+      dbRef = collection(db, 'users', user.uid, 'exercise-data');
+    };
+
+    const getExercises = async () => {
+      try {
+        await onSnapshot(dbRef, (docsSnap) => {
+          const exercises = docsSnap.docs.map((doc) => {
+            const exercise = doc.data();
+            exercise.id = doc.id;
+            return exercise;
+          });
+          setExerciseList(exercises);
+        });
+      } catch (err) {
+        console.log('getExercises =' + err);
+      }
+    };
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        getUserData();
+        getExercises();
+        alert('Logged In');
+      } else {
+        alert('Not logged in');
+      }
+    });
+  }, []);
+
+  const addExercise = async (e) => {
     e.preventDefault();
 
     if (exerciseInput && weightInput && repsInput && setsInput) {
@@ -21,7 +72,20 @@ const WorkoutTracker = () => {
         note: noteInput.trim(),
       };
 
-      setExerciseList([...exerciseList, newExercise]);
+      try {
+        await addDoc(dbRef, {
+          exercise: newExercise.exerciseName,
+          weight: newExercise.weight,
+          reps: newExercise.reps,
+          sets: newExercise.sets,
+          note: newExercise.note,
+          date: new Date(),
+        });
+        setExerciseList([...exerciseList, newExercise]);
+      } catch (err) {
+        console.log('Error adding exercise to Firebase:', err);
+      }
+
       setExerciseInput('');
       setWeightInput('');
       setRepsInput('');
@@ -30,10 +94,16 @@ const WorkoutTracker = () => {
     }
   };
 
-  const deleteExercise = (index) => {
-    const updatedList = [...exerciseList];
-    updatedList.splice(index, 1);
-    setExerciseList(updatedList);
+  const deleteExercise = async (id) => {
+    try {
+      const docRef = doc(db, 'users', user.uid, 'exercise-data', id);
+      await deleteDoc(docRef);
+      setExerciseList((prevExercises) =>
+        prevExercises.filter((exercise) => exercise.id !== id)
+      );
+    } catch (err) {
+      console.log('Error deleting exercise from Firebase:', err);
+    }
   };
 
   const handleButtonClick = (navItem) => {
