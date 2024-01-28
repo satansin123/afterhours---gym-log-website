@@ -21,25 +21,54 @@ import {
 const db = getFirestore();
 const auth = getAuth();
 var user, dbRef;
+var availExercises=[];
 
 const Machine = () => {
   const navigate = useNavigate();
+  availExercises=[];
 
- 
+  const [exerciseList, setExerciseList] = useState([]);
+  const [exerciseInput, setExerciseInput] = useState('');
+  const [weightInput, setWeightInput] = useState('');
+  const [repsInput, setRepsInput] = useState('');
+  const [setsInput, setSetsInput] = useState('');
+  const [noteInput, setNoteInput] = useState('');
 
   useEffect(() => {
     const getUserData = async () => {
       user = auth.currentUser;
-      dbRef = collection(db, 'users', user.uid, 'exercise-data');
+      dbRef = collection(db, 'gym-data');
     };
 
-   
+    const exerciseList = document.getElementById("exerlist");
+    const getExercises = async () => {
+      exerciseList.innerHTML=''
+      try {
+        await onSnapshot(dbRef, (docsSnap) => {
+          console.log(docsSnap);
+          const exercises = docsSnap.docs.map((doc) => {
+            const exercise = doc.data();
+            exercise.id=doc.id;
+            // exercise.avail = doc.available;
+            if(exercise.available==false)
+            {const li=<li>${exercise.id}</li>;
+            exerciseList.innerHTML += li;}
+          });
+          setExerciseList(exercises);
+        });
+      } catch (err) {
+        console.log('getExercises =' + err);
+      }
+    };
+
     
     console.log("yes")
     onAuthStateChanged(auth, async(user)=> {
       console.log("inside onAuthStateChanged")
       if(user){
           // alert("Logged In")
+          getUserData();
+          getExercises();
       }
       else{
          navigate("/register")
@@ -70,8 +99,8 @@ const Machine = () => {
             <div className="bg-gray-800 p-6 rounded-lg">
               <h2 className="text-xl font-semibold mb-4">The following machines are unavailable today:</h2>
               <div className='machine-list'>
-                <ol>
-                  <li>1</li>
+                <ol id='exerlist'>
+                  <li>{availExercises}</li>
                 </ol>
               </div>
             </div>
