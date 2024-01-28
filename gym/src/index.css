@@ -12,13 +12,7 @@ body {
  
   
 }
-.sidebar {
-  background-color: #000;
-  padding: 20px;
-  width: 250px;
-  height: 100vh;
-  position: fixed;
-}
+
 .content {
   margin-left: 250px;
   padding: 20px;
@@ -119,10 +113,16 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.sidebar {
+  background-color: #111111; /* Tailwind teal-600 */
+  width: 18rem; /* Set the width of the sidebar */
+  position: fixed;
+  height: 100%; /* Make the sidebar full height */
+}
+
 .container-main {
-  margin-left: 16rem; /* width of the sidebar */
+  margin-left: 18rem; /* Set the margin to be equal to the width of the sidebar */
   flex: 1;
-  
 }
 .content {
   padding: 20px;
@@ -136,4 +136,159 @@ body {
 }
 .bg_trans:hover{
   border-color: #fada32;
+}
+
+.tracker-card-one,  .input-group {
+  background-color: #111111;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  width: 85%;
+  margin-right: 35px;
+}
+.tracker-card-two{
+  width: 50%;
+  background-color: #111111;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+.input-group input {
+  background-color: #333;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-right: 10px;
+}
+.input-group button{
+  background-color: #333;
+  border: none;
+  color: black;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-right: 10px;
+}
+.input-group button {
+  background-color: #eee727f7;
+  border-radius: 35px;
+  cursor: pointer;
+}
+.progress-bar {
+  background-color: transparent;
+  
+  position: relative;
+  
+}
+.progress {
+  height: 20px;
+  border-radius: 20px;
+  background-color: #eee727f7;
+  position: absolute;
+
+}
+.progress-label {
+  position: absolute;
+  right: 10px;
+  top: 0;
+}
+.meal-list {
+  list-style: none;
+  padding: 0;
+}
+.meal-list li {
+background-color: #333;
+border-radius: 5px;
+padding: 10px;
+margin-bottom: 6px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.reset{
+background-color: #eee727f7;
+  border-radius: 205px;
+  cursor: pointer;
+  padding: 8.5px;
+  width: 100px;
+  height: 50px;
+  margin-top: 65px;
+  color: #000;
+}
+.circular-component-container {
+text-align: center; /* Centering the text below the circle */
+font-family: 'Poppins', sans-serif;
+}
+
+.circular-component {
+width: 130px; /* Size of the circle */
+height: 130px; /* Size of the circle */
+background-color: transparent; /* Transparent background */
+border-radius: 50%;
+border: 5px solid #eee727f7; /* Yellow border */
+display: flex;
+align-items: center;
+justify-content: center;
+margin-top: 50px;
+margin-left: 50px;
+}
+
+.calories-value {
+color: white;
+font-size: 30px;
+}
+
+.calories-text {
+color: white;
+margin-top: 10px; /* Spacing between the circle and the text */
+margin-left: 50px;
+}
+.water-tracker {
+background-color: #111111;
+color: white;
+padding: 20px;
+border-radius: 10px;
+text-align: center;
+font-family: 'Arial', sans-serif;
+max-width: 300px;
+margin: auto;
+margin-top: 60px;
+}
+
+.controls button {
+background-color: #eee727f7;
+border: none;
+border-radius: 50%;
+width: 30px;
+height: 30px;
+color: #333;
+font-size: 20px;
+line-height: 30px;
+margin: 0 10px;
+cursor: pointer;
+}
+
+#progress-bar {
+background-color: #444;
+width: 100px;
+height: 10px;
+display: inline-block;
+border-radius: 5px;
+overflow: hidden;
+position: relative;
+}
+
+#progress {
+background-color: #eee727f7;
+width: 0%; /* Initial progress */
+height: 100%;
+}
+
+#counter {
+margin-top: 10px;
+}
+.icon-container {
+display: flex;
+justify-content: center;
+align-items: center;
+margin-top: 10px;
 }
