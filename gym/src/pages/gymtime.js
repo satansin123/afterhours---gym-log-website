@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
+import Header from '../components/Header';
 
-const Progress = () => {
+const Gym = () => {
   
     const handleButtonClick = (navItem) => {
         // Handle the button click, e.g., change the content based on the navItem
@@ -10,9 +11,13 @@ const Progress = () => {
   return (
     <div className="flex">
         <Sidebar handleButtonClick={handleButtonClick}/>
+        <div className="w-80 h-screen " aria-hidden="true"></div>
+      <div className="flex-1 p-6">
+      <Header/>
+      </div>
       
     </div>
   );
 };
 
-export default Progress;
+export default Gym;
