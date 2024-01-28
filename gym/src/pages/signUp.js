@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
+
 import {
   getFirestore,
   collection,
@@ -23,6 +24,7 @@ const db = getFirestore();
 const auth = getAuth();
 var user, dbRef;
 const FitCampusRegistration = () => {
+  const navigate = useNavigate();
   useEffect(() => {
     const storeInput = (key, value) => localStorage.setItem(key, value);
 
@@ -57,6 +59,7 @@ const FitCampusRegistration = () => {
 
       console.log(user);
       alert("Account created successfully!");
+      navigate('/profile-setup')
     } catch (error) {
       console.error(error);
       alert(error.message);
@@ -99,13 +102,13 @@ const FitCampusRegistration = () => {
                 />
               </div>
               <div className="flex items-center justify-center">
-              <Link to="/profile-setup"
+              <button
               className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
               onClick={signUpClicked}
             >
               Register
-            </Link>
+            </button>
               </div>
             </div>
           </form>

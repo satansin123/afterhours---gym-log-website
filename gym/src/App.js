@@ -16,6 +16,7 @@ import Machine from './pages/machine';
 import Gym from './pages/gymtime';
 
 
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
@@ -33,6 +34,7 @@ function App() {
         <Route path="/nutrition" element={<Nutrition/>} />
         <Route path="/machine" element={<Machine/>} />
         <Route path="/gym" element={<Gym/>} />
+        
         
         
       </Routes>

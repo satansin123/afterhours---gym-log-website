@@ -45,16 +45,15 @@ const Machine = () => {
       exerciseList.innerHTML=''
       try {
         await onSnapshot(dbRef, (docsSnap) => {
-          console.log(docsSnap);
-          const exercises = docsSnap.docs.map((doc) => {
+          docsSnap.forEach((doc) => {
             const exercise = doc.data();
+            console.log(exercise)
             exercise.id=doc.id;
-            // exercise.avail = doc.available;
             if(exercise.available==false)
-            {const li=<li>${exercise.id}</li>;
+            {const li=`<li>${exercise.id}</li>`;
             exerciseList.innerHTML += li;}
           });
-          setExerciseList(exercises);
+          // setExerciseList(exercises);
         });
       } catch (err) {
         console.log('getExercises =' + err);

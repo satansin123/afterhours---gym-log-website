@@ -1,83 +1,90 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   getFirestore,
-  collection,
-  addDoc,
   onSnapshot,
   doc,
-  updateDoc,
-  deleteDoc,
-  setDoc,
-  docsSnap
 } from 'https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js';
 
 import {
-  getAuth,  // Corrected import
+  getAuth,
   onAuthStateChanged,
 } from 'https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js';
 
 const db = getFirestore();
 const auth = getAuth();
-var user, dbRef;
-
 
 const Gym = () => {
-  
-
- 
-
-  
+  const navigate = useNavigate();
 
   const handleButtonClick = (navItem) => {
-    // Handle the button click, e.g., change the content based on the navItem
     console.log(`Button clicked: ${navItem}`);
   };
 
   return (
     <div className="flex">
-      <Sidebar handleButtonClick={handleButtonClick}/>
-      <div className="w-80 h-screen " aria-hidden="true"></div>
+      <Sidebar handleButtonClick={handleButtonClick} />
+      <div className="w-80 h-screen" aria-hidden="true"></div>
       <div className="flex-1 p-6">
         <Header />
-        <GymTimings />
+        <GymTiming />
       </div>
     </div>
   );
 };
 
-const GymTimings = () => {
-  var time;
+const GymTiming = () => {
   const navigate = useNavigate();
-  onAuthStateChanged(auth, async(user)=> {
-    console.log("inside onAuthStateChanged")
-    if(user){
-        // alert("Logged In")
+  const [time, setTime] = useState(null); // State for gym timings
+  const [status, setStatus] = useState(null); // State for gym status
+
+  const getTimings = async () => {
+    console.log("get timing fn")
+    try {
+      const timingsDoc = doc(db, "gym-info", "timings");
+      await onSnapshot(timingsDoc, (docsSnap) => {
+        setTime(docsSnap.data()); // Set the state with timings data
+      });
+    } catch (e) {
+      console.error('Error fetching gym timings:', e);
+    }
+
+    try {
+      const statusDoc = doc(db, "gym-info", "functioning");
+      await onSnapshot(statusDoc, (docsSnap) => {
+        console.log(docsSnap.data());
+        let gymStatus = docsSnap.data();
+        console.log(gymStatus);
+        setStatus(gymStatus); // Set the state with status data
+      });
+    } catch (e) {
+      console.error('Error fetching gym status:', e);
+    }
+  };
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      console.log("inside onAuthStateChanged");
+      if (user) {
         getTimings();
-    }
-    else{
-       navigate("/register")
-    }
-  });
-  const getTimings = async()=>{
-    try{
-      await onSnapshot(doc(db,"gym-info","timings"),docsSnap=>{
-        time=docsSnap.data()
-        console.log(time.CT1)
-      })
-    }
-    catch(e){
-      console.log(e)
-    }
-  }
-  console.log(time)
+      } else {
+        navigate("/register");
+      }
+    });
+  }, [navigate]);
+
   return (
     <div className="mt-4">
       <h2 className="text-2xl font-bold mb-2">Gym Timings:</h2>
-      <p>{time.OT1} - {time.CT1}</p>
-      <p>{time.OT2} - {time.CT2}</p>
+      <h4>Morning - </h4>
+      <p>Opening Time: {time && time.OT1}</p>
+      <p>Closing Time: {time && time.CT1}</p>
+      <h4>Evening - </h4>
+      <p>Opening Time: {time && time.OT2}</p>
+      <p>Closing Time: {time && time.CT2}</p>
+      <p>Gym Status Today: {status && status.open ? 'Open' : 'Closed'}</p>
     </div>
   );
 };

@@ -119,7 +119,7 @@ const WorkoutTracker = () => {
       <div className="w-80 h-screen " aria-hidden="true"></div>
       <div className="flex-1 p-6">
       <Header/>
-        <div className="mt-8">
+        <div className="mt-8 ">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="p-6 rounded-lg bg_gray" >
               <h2 className="text-xl font-semibold mb-4">Build your Workout Routine</h2>

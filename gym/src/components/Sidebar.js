@@ -2,9 +2,25 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUserFriends, faWalking, faUserCheck, faBowlFood } from '@fortawesome/free-solid-svg-icons';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {
+  getFirestore,
+} from 'https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js';
+
+import {
+  getAuth,  // Corrected import
+  onAuthStateChanged,
+  signOut
+} from 'https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js';
+
+
+const db = getFirestore();
+
+var user, dbRef;
 
 function Sidebar({ handleButtonClick }) {
+  const navigate = useNavigate();
+  const auth = getAuth();
   const [activeNavItem, setActiveNavItem] = useState('home');
   const location = useLocation();
 
@@ -13,6 +29,16 @@ function Sidebar({ handleButtonClick }) {
     const path = location.pathname;
     setActiveNavItem(getNavItemFromPath(path));
   }, [location.pathname]);
+
+  onAuthStateChanged(auth,async(user)=>{
+    if(user){
+
+    }
+    else{
+      alert("please login to continue")
+      navigate('/login')
+    }
+  })
 
   const getNavItemFromPath = (path) => {
     // Map the pathname to the corresponding navItem
@@ -31,6 +57,7 @@ function Sidebar({ handleButtonClick }) {
         return 'workout';
       case '/gym':
         return 'gym';
+      
       default:
         return 'home';
     }
@@ -39,6 +66,17 @@ function Sidebar({ handleButtonClick }) {
   const handleNavButtonClick = (navItem) => {
     setActiveNavItem(navItem);
     handleButtonClick(navItem);
+  };
+
+  const signOutClicked = async () => {
+    try {
+      console.log("sign out clicked");
+      await signOut(auth);
+      navigate("/login")
+      // Redirect or perform other actions after sign-out
+    } catch (error) {
+      console.error("Error signing out:", error.message);
+    }
   };
 
   return (
@@ -95,14 +133,15 @@ function Sidebar({ handleButtonClick }) {
   <FontAwesomeIcon icon={faWalking} className="mr-9 text-black-500" />
   Gym Timings
 </Link>
+          
 
         </nav>
       </div>
       <div className="mt-auto px-5 py-1 bg-gray-700 flex items-center justify-between">
         <div>
-          <Link to="/" className="create-account-button text-white py-1 px-4 rounded">
+          <button className="create-account-button text-white py-1 px-4 rounded" onClick={signOutClicked}>
             Log Out
-          </Link>
+          </button>
         </div>
         <div>
           <FontAwesomeIcon icon={faUserCheck} className="text-white text-2xl" />

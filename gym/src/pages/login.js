@@ -75,7 +75,6 @@ const FitCampusLogin = () => {
                 placeholder="Password"
                 name="password"
               />
-              <p className="text-red-500 text-xs italic">Please choose a password.</p>
             </div>
             <div className="flex items-center justify-between">
             <Link to="/home"
@@ -103,11 +102,7 @@ const FitCampusLogin = () => {
           </div>
           <div className="my-6 border-t border-gray-600"></div>
           <div className="flex items-center justify-center">
-            <button
-              className="bg-transparent hover:bg-yellow-500 text-yellow-500 font-semibold hover:text-black py-2 px-4 border border-yellow-500 hover:border-transparent rounded"
-            >
-              <i className="fab fa-google mr-2"></i> Sign in with Google
-            </button>
+            
           </div>
         </form>
       </div>

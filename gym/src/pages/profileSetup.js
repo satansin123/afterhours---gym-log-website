@@ -62,6 +62,7 @@ const FitCampusProfileSetup = () => {
     console.log('Goal Weight:', goalWeight);
     console.log('Age:', age);
     console.log('Gender:', gender);
+    
     try{
       await setDoc(doc(db, "users", user.uid,"information","health-info"),{
         weight: weight,
@@ -70,7 +71,8 @@ const FitCampusProfileSetup = () => {
         gender:gender,
         goal_weight:goalWeight
       })
-      alert("Your health information has been updated successfully")
+      alert("Your health information has been updated successfully");
+      navigate('/home');
     }
     catch(e){
       alert(e);
