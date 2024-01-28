@@ -100,9 +100,9 @@ function Sidebar({ handleButtonClick }) {
       </div>
       <div className="mt-auto px-5 py-1 bg-gray-700 flex items-center justify-between">
         <div>
-          <button className="create-account-button text-white py-1 px-4 rounded">
-            Account
-          </button>
+          <Link to="/" className="create-account-button text-white py-1 px-4 rounded">
+            Log Out
+          </Link>
         </div>
         <div>
           <FontAwesomeIcon icon={faUserCheck} className="text-white text-2xl" />
