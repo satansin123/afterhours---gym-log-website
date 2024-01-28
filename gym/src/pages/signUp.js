@@ -1,9 +1,27 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { auth, collection, doc, setDoc, db } from '../firebase'; // Include 'db' in the import statement
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  onSnapshot,
+  doc,
+  updateDoc,
+  deleteDoc,
+  setDoc
+} from 'https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js';
 
-import { createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
+import {
+  getAuth,  // Corrected import
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  updateProfile
+} from 'https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js';
 
+
+const db = getFirestore();
+const auth = getAuth();
+var user, dbRef;
 const FitCampusRegistration = () => {
   useEffect(() => {
     const storeInput = (key, value) => localStorage.setItem(key, value);

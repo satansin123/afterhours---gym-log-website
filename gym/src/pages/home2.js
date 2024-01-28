@@ -36,7 +36,7 @@ const Home2 = () => {
             imageSrc={d}
             altText="Timings Of Gym"
             title="Timings Of Gym"
-            to="/gym-time"
+            to="/gym"
           />
         </div>
       </div>

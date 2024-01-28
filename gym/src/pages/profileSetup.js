@@ -1,8 +1,46 @@
 // src/components/FitCampusProfileSetup.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  onSnapshot,
+  doc,
+  updateDoc,
+  deleteDoc,
+  setDoc
+} from 'https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js';
+
+import {
+  getAuth,  // Corrected import
+  onAuthStateChanged,
+} from 'https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js';
+
+
+const db = getFirestore();
+const auth = getAuth();
+var user, dbRef;
+
+
+
+
 
 const FitCampusProfileSetup = () => {
+  user=auth.currentUser;
+  console.log(user)
+  const navigate = useNavigate();
+  console.log("yes")
+  onAuthStateChanged(auth, async(user)=> {
+    console.log("inside onAuthStateChanged")
+    if(user){
+        // alert("Logged In")
+    }
+    else{
+       navigate("/register")
+    }
+  })
+
   const [weight, setWeight] = useState('');
   const [height, setHeight] = useState('');
   const [goalWeight, setGoalWeight] = useState('');
@@ -17,13 +55,26 @@ const FitCampusProfileSetup = () => {
     setGender(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
     console.log('Weight:', weight);
     console.log('Height:', height);
     console.log('Goal Weight:', goalWeight);
     console.log('Age:', age);
     console.log('Gender:', gender);
+    try{
+      await setDoc(doc(db, "users", user.uid,"information","health-info"),{
+        weight: weight,
+        height:height,
+        age: age,
+        gender:gender,
+        goal_weight:goalWeight
+      })
+      alert("Your health information has been updated successfully")
+    }
+    catch(e){
+      alert(e);
+    }
 
     // Add your logic for form submission or navigation here
   };
@@ -31,7 +82,7 @@ const FitCampusProfileSetup = () => {
   return (
     <div className="bg-black text-white flex items-center justify-center h-screen">
       <div className="w-full max-w-md">
-        <form className="bg-black shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
+        <form className="bg-black shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <h1 className="block text-white text-5xl text-center mb-6">FitCampus</h1>
           <p className="text-yellow-500 text-lg text-center mb-4">Please enter your Details</p>
           <div className="mb-4">
@@ -112,12 +163,12 @@ const FitCampusProfileSetup = () => {
             </label>
           </div>
           <div className="flex items-center justify-center">
-            <Link to="/home"
+            <button onClick={handleSubmit}
               className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
             >
               Enter
-            </Link>
+            </button>
           </div>
         </form>
       </div>
