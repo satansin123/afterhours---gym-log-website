@@ -1,10 +1,9 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
-import{ getAuth } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+// firebase.js
 
-// Your web app's Firebase configuration
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
+import { getFirestore, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyD4a-RNWwY-AdYhprXPkvCKJcshdcWze2w",
   authDomain: "fitcampus.firebaseapp.com",
@@ -14,9 +13,9 @@ const firebaseConfig = {
   appId: "1:847475516467:web:eef90a3681dac548766f46"
 };
 
-console.log("running firebase sdk");
-
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-console.log(app);
 const auth = getAuth(app);
+const db = getFirestore();
+
+export default firebaseConfig;
+export { auth, collection, doc, setDoc, db };
